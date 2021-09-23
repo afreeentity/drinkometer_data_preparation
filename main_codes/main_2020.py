@@ -173,16 +173,14 @@ def writer_(main_df, list_of_them, number, method, a_n, path):
     return main_df
 
 
-# Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    print("Please enter the animal code:")
-    animal = int(input())
-    print("Please enter the box number:")
-    box = int(input())
-    print("Please enter the strain of the animal")
-    strain = input()
-    print("Please enter the gender of the animal")
-    gender = input()
+    #PlZzZz enter AnimalCode NumberofBox AnimalStrain AnimalGender after the main.py with one space from each other!
+    #like this: python main.py 1001 1 wistar male
+    animal = int(sys.argv[1])
+    box = int(sys.argv[2])
+    strain = str(sys.argv[3])
+    gender = str(sys.argv[4])
+    print(animal, box, strain, gender)
 
     date_i = date(2020, 2, 12)
     date_f = date(2020, 11, 17)
