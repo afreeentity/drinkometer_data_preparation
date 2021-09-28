@@ -7,7 +7,7 @@ from os.path import isfile, join
 import math
 from scipy.optimize import curve_fit
 from writer import loco_writer2020
-
+import sys
 
 def d_day_index(f, n):
     for i1 in range(n):
