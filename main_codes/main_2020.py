@@ -279,28 +279,28 @@ if __name__ == '__main__':
             for i in range(len(list_) - 1):
                 temp_val = df.loc[list_[i + 1], 'water'] - df.loc[list_[i], 'water']
                 if temp_val != 0.0:
-                    df1.loc[list_[i + 1], 'water'] = temp_val
+                    df1.loc[list_[i + 1], 'water'] = np.abs(temp_val)
         df_extracted = df.loc[(df['hour_index'] == hour) & (df['alcohol_5%'].notnull())]
         list_ = np.array(df_extracted.water.index)
         if len(list_) > 1:
             for i in range(len(list_) - 1):
                 temp_val = df.loc[list_[i + 1], 'alcohol_5%'] - df.loc[list_[i], 'alcohol_5%']
                 if temp_val != 0.0:
-                    df1.loc[list_[i + 1], 'alcohol_5%'] = temp_val
+                    df1.loc[list_[i + 1], 'alcohol_5%'] = np.abs(temp_val)
         df_extracted = df.loc[(df['hour_index'] == hour) & (df['alcohol_10%'].notnull())]
         list_ = np.array(df_extracted.water.index)
         if len(list_) > 1:
             for i in range(len(list_) - 1):
                 temp_val = df.loc[list_[i + 1], 'alcohol_10%'] - df.loc[list_[i], 'alcohol_10%']
                 if temp_val != 0.0:
-                    df1.loc[list_[i + 1], 'alcohol_10%'] = temp_val
+                    df1.loc[list_[i + 1], 'alcohol_10%'] = np.abs(temp_val)
         df_extracted = df.loc[(df['hour_index'] == hour) & (df['alcohol_20%'].notnull())]
         list_ = np.array(df_extracted.water.index)
         if len(list_) > 1:
             for i in range(len(list_) - 1):
                 temp_val = df.loc[list_[i + 1], 'alcohol_20%'] - df.loc[list_[i], 'alcohol_20%']
                 if temp_val != 0.0:
-                    df1.loc[list_[i + 1], 'alcohol_20%'] = temp_val
+                    df1.loc[list_[i + 1], 'alcohol_20%'] = np.abs(temp_val)
 
     df1_wl = loco_writer2020(box, df1, path_)
     df1_wl.to_excel(r'{}\dataframes\drinkometer_df_{}_{}_{}_{}_consumption.xlsx'.format(path_, strain, gender,

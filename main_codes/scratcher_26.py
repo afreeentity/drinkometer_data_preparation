@@ -15,13 +15,13 @@ import sys
 
 def wistar_w(g, nu):
     if g == str("male"):
-        x = nu-17
-        y = [491.7, 438.3, 486.1, 572, 475.2, 468.6, 446, 431.7, 452.9, 413,
+        x = nu-16
+        y = [np.nan, 491.7, 438.3, 486.1, 572, 475.2, 468.6, 446, 431.7, 452.9, 413,
       417.7, 491.1, 495.9, 500.3, 548.2, 524.7]
 
     elif g == str("female"):
         x = nu-1
-        y = [282.7, 340.6, 231.3, 301.9, 325.6, 328.7, 297.8, 295.2,
+        y = [282.7, 340.6, 231.3, 301.9, 325.6, 328.7, np.nan, 297.8, 295.2,
       306.7, 287.2, 276, 293.6, 301.9, 281.7]
     else:
         print("You fucked up the gender on weight optimizer.")
@@ -176,8 +176,8 @@ if __name__ == '__main__':
     gender = str(sys.argv[4])
     print(animal, box, strain, gender)
 
-    date_i = date(2021, 9, 1)
-    date_f = date(2021, 9, 7)
+    date_i = date(2021, 9, 22)
+    date_f = date(2021, 9, 28)
 
     delta = date_f - date_i
     number_of_days = int(delta.days) + 1
@@ -195,15 +195,15 @@ if __name__ == '__main__':
     df['animal'] = animal
     df['box'] = box
     df['strain'] = strain
-    df['date'] = pd.date_range("2021-09-01", periods=total_length, freq="T").strftime('%Y-%m-%d')
-    df['time'] = pd.date_range("2021-09-01", periods=total_length, freq="T").strftime('%H:%M:%S')
+    df['date'] = pd.date_range("2021-09-22", periods=total_length, freq="T").strftime('%Y-%m-%d')
+    df['time'] = pd.date_range("2021-09-22", periods=total_length, freq="T").strftime('%H:%M:%S')
 
     path_ = os.getcwd()
     path_ = path_ + '\\data\\2021'
     onlyfiles = [f for f in listdir("{}".format(path_))
                  if isfile(join("{}".format(path_), f))]
 
-    df = writer_(df, onlyfiles, 29, str('ade_only'), box, path_)
+    df = writer_(df, onlyfiles, 30, str('ade_only'), box, path_)
 
     df1 = pd.DataFrame(index=range(total_length), columns=['date', 'time', 'day_index', 'hour_index', 'animal', 'box',
                                                            'strain', 'state', 'oxytocin', 'quinine', 'water',
@@ -214,8 +214,8 @@ if __name__ == '__main__':
     df1['animal'] = animal
     df1['box'] = box
     df1['strain'] = strain
-    df1['date'] = pd.date_range("2021-09-01", periods=total_length, freq="T").strftime('%Y-%m-%d')
-    df1['time'] = pd.date_range("2021-09-01", periods=total_length, freq="T").strftime('%H:%M:%S')
+    df1['date'] = pd.date_range("2021-09-22", periods=total_length, freq="T").strftime('%Y-%m-%d')
+    df1['time'] = pd.date_range("2021-09-22", periods=total_length, freq="T").strftime('%H:%M:%S')
     df1['quinine'] = df['quinine']
     df1['oxytocin'] = df['oxytocin']
     df1['state'] = df['state']
@@ -227,28 +227,29 @@ if __name__ == '__main__':
             for i in range(len(list_) - 1):
                 temp_val = df.loc[list_[i + 1], 'water'] - df.loc[list_[i], 'water']
                 if temp_val != 0.0:
-                    df1.loc[list_[i + 1], 'water'] = temp_val
+                    df1.loc[list_[i + 1], 'water'] = np.abs(temp_val)
         df_extracted = df.loc[(df['hour_index'] == hour) & (df['alcohol_5'].notnull())]
         list_ = np.array(df_extracted.water.index)
         if len(list_) > 1:
             for i in range(len(list_) - 1):
                 temp_val = df.loc[list_[i + 1], 'alcohol_5'] - df.loc[list_[i], 'alcohol_5']
                 if temp_val != 0.0:
-                    df1.loc[list_[i + 1], 'alcohol_5'] = temp_val
+                    df1.loc[list_[i + 1], 'alcohol_5'] = np.abs(temp_val)
         df_extracted = df.loc[(df['hour_index'] == hour) & (df['alcohol_10'].notnull())]
         list_ = np.array(df_extracted.water.index)
         if len(list_) > 1:
             for i in range(len(list_) - 1):
                 temp_val = df.loc[list_[i + 1], 'alcohol_10'] - df.loc[list_[i], 'alcohol_10']
                 if temp_val != 0.0:
-                    df1.loc[list_[i + 1], 'alcohol_10'] = temp_val
+                    df1.loc[list_[i + 1], 'alcohol_10'] = np.abs(temp_val)
         df_extracted = df.loc[(df['hour_index'] == hour) & (df['alcohol_20'].notnull())]
         list_ = np.array(df_extracted.water.index)
         if len(list_) > 1:
             for i in range(len(list_) - 1):
                 temp_val = df.loc[list_[i + 1], 'alcohol_20'] - df.loc[list_[i], 'alcohol_20']
                 if temp_val != 0.0:
-                    df1.loc[list_[i + 1], 'alcohol_20'] = temp_val
+                    df1.loc[list_[i + 1], 'alcohol_20'] = np.abs(temp_val)
+
 
     threshold_low = 0.08
     threshold_up = threshup_()
@@ -264,8 +265,8 @@ if __name__ == '__main__':
     df_h['animal'] = animal
     df_h['box'] = box
     df_h['strain'] = strain
-    df_h['date'] = pd.date_range("2021-09-01", periods=number_of_days * 24, freq="H").strftime('%Y-%m-%d')
-    df_h['time'] = pd.date_range("2021-09-01", periods=number_of_days * 24, freq="H").strftime('%H:%M:%S')
+    df_h['date'] = pd.date_range("2021-09-22", periods=number_of_days * 24, freq="H").strftime('%Y-%m-%d')
+    df_h['time'] = pd.date_range("2021-09-22", periods=number_of_days * 24, freq="H").strftime('%H:%M:%S')
 
     hours = sorted(set(np.array(df1.loc[(df1['quinine'] == str('applied'))].hour_index)))
     for i in range(len(hours)):
@@ -337,13 +338,13 @@ if __name__ == '__main__':
     df_d_light['box'] = box
     df_d_light['strain'] = strain
     df_d_light['state'] = str('light')
-    df_d_light['date'] = pd.date_range("2021-09-01", periods=number_of_days, freq="D").strftime('%Y-%m-%d')
+    df_d_light['date'] = pd.date_range("2021-09-22", periods=number_of_days, freq="D").strftime('%Y-%m-%d')
 
     df_d_dark['animal'] = animal
     df_d_dark['box'] = box
     df_d_dark['strain'] = strain
     df_d_dark['state'] = str('dark')
-    df_d_dark['date'] = pd.date_range("2021-09-01", periods=number_of_days, freq="D").strftime('%Y-%m-%d')
+    df_d_dark['date'] = pd.date_range("2021-09-22", periods=number_of_days, freq="D").strftime('%Y-%m-%d')
 
     days = sorted(set(np.array(df1.loc[(df1['quinine'] == str('applied'))].day_index)))
     for i in range(len(days)):
