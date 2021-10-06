@@ -1294,7 +1294,7 @@ def weight_organizer():
     df_w['week'] = pd.Series(temp_week, index=df_w.index)
     df_w['gender'] = pd.Series(temp_g, index=df_w.index)
     df_w['animal'] = pd.Series(animal, index=df_w.index)
-
+    df_w = df_w.dropna()
     return df_w
 
 
