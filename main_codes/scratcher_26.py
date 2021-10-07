@@ -1,3 +1,10 @@
+'''
+Here the weight distribution is what we measured on a certain date
+Also prepared for 2021 experiements.
+'''
+
+
+
 import numpy as np
 import pandas as pd
 import scipy as sc

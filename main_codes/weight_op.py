@@ -144,18 +144,27 @@ def wistar_w(g, h, x, y):
     def fsigmoid(x, a, b):
         return a + b * np.log(x)
 
+    def poly_2(x, a, b, c):
+        return a * x + b * x**2 + c
+
     ress = np.nan
 
     _x = math.ceil(((21 * 24) + h) / (24 * 7))
 
     if g == str("male"):
+        #popt, pcov = curve_fit(func, x, y)
+        #a, b,c = popt
         popt, pcov = curve_fit(fsigmoid, x, y)
         a, b = popt
         ress = a + b * np.log(_x)
+        #ress = a * _x + b * _x**2 + c
     elif g == str("female"):
+        #popt, pcov = curve_fit(func, x, y)
+        #a, b,c = popt
         popt, pcov = curve_fit(fsigmoid, x, y)
         a, b = popt
         ress = a + b * np.log(_x)
+        #ress = a * _x + b * _x**2 + c
     else:
         print("You fucked up the gender on weight optimizer.")
     #print(_x)
