@@ -180,6 +180,11 @@ def wistar_w_w(g, h, x, y, w_i, b_no):
          420.5, 487, 480, 430.4, 452.6, 438, 469.8, 508.1,
          502.4, 471.2, 463.1, 462, 478.1, 469.3, 449.3, 452,
          497, 446.5, 488.1, 480.3, 546.7, 489.3, 458.4]
+
+    animals = [1, 2, 3, 4, 5, 6, 8, 9, 10, 11,
+          12, 13, 14, 15, 17, 18, 19, 20,
+          21, 22, 23, 24, 25, 26, 27, 28,
+          29, 30, 31, 32]
     w_2020 = pd.DataFrame(index=range(30), columns = ['animal','weight'])
     w_2020['weight'] = pd.Series(we_2020, index=w_2020.index)
     w_2020['animal'] = pd.Series(animals, index=w_2020.index)
@@ -191,18 +196,18 @@ def wistar_w_w(g, h, x, y, w_i, b_no):
         popt, pcov = curve_fit(fsigmoid, x, y)
         a, b = popt
         ress = a + b * np.log(_x)
-        init_ = a + b * np.log(40)
+        init_ = a + b * np.log(w_i)
     elif g == str("female"):
         popt, pcov = curve_fit(fsigmoid, x, y)
         a, b = popt
         ress = a + b * np.log(_x)
-        init_ = a + b * np.log(40)
+        init_ = a + b * np.log(w_i)
     else:
         print("You fucked up the gender on weight optimizer.")
     
     w40 = w_2020.loc[w_2020['animal'] == b_no].values[0][1]
     delta = np.abs(init_ - w40)
-    print(delta)
-    print(ress)
-    print(a,b)
+    #print(delta)
+    #print(ress)
+    #print(a,b)
     return ress + delta
