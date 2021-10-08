@@ -195,7 +195,7 @@ if __name__ == '__main__':
         df_temp = weight_organizer()
         y_ = df_temp.loc[df_temp['gender'] == gender]["weight"]
         x_ = df_temp.loc[df_temp['gender'] == gender]["week"]
-        wistar_w_w(gender, hour, x_, y_, 40, box)
+        w_w = wistar_w_w(gender, hour, x_, y_, 40, box)
         # print(w_w)
         list_ = []
         ind = np.array(df_h.loc[(df_h['hour_index'] == hour)].index)
